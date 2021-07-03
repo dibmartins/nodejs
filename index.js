@@ -40,6 +40,6 @@ app.get('/uf', async (req, res) => {
     emitter.emit('OnLoadUF', estados);
 });
 
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor executando em http://localhost:${process.env.PORT}`)
+app.listen(process.env.NODE_PORT, () => {
+    console.log(`${process.env.NODE_ENV.charAt(0).toUpperCase() + process.env.NODE_ENV.slice(1)} server running at http://localhost:${process.env.NODE_PORT}`)
 });
