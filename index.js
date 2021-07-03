@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-console.log(process.env.DB_HOST);
-
 var express = require('express');
 var db      = require('./db');
 var events  = require('events');
