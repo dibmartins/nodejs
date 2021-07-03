@@ -41,5 +41,5 @@ app.get('/uf', async (req, res) => {
 });
 
 app.listen(process.env.NODE_PORT, () => {
-    console.log(`${process.env.NODE_ENV.charAt(0).toUpperCase() + process.env.NODE_ENV.slice(1)} server running at http://localhost:${process.env.NODE_PORT}`)
+    console.log(`${process.env.NODE_ENV} server running at http://localhost:${process.env.NODE_PORT}`)
 });
