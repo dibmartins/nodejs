@@ -1,25 +1,20 @@
-var express    = require('express');
-var Sequelize  = require('sequelize');
-const dbConfig = require("./config/db.config.js");
+require('dotenv').config();
 
-var port = 3000;
+console.log(process.env.DB_HOST);
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host             : dbConfig.HOST,
-    dialect          : dbConfig.dialect,
-    operatorsAliases : '0',
+var express = require('express');
+var db      = require('./db');
+var events  = require('events');
 
-    pool: {
-        max     : dbConfig.pool.max,
-        min     : dbConfig.pool.min,
-        acquire : dbConfig.pool.acquire,
-        idle    : dbConfig.pool.idle
-    }
+var emitter = new events.EventEmitter();
+
+emitter.on('OnLoadUF', (data) => {
+    console.log(data);
 });
 
 const getUF = async function (){
 
-    users = await sequelize.query("SELECT * FROM uf", { type: sequelize.QueryTypes.SELECT});
+    users = await db.query("SELECT * FROM uf", { type: db.QueryTypes.SELECT});
 
     return users;
 }
@@ -39,13 +34,14 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/uf', async (req, res) => {
-
+    
     const estados = await getUF();
-
+    
     res.json(estados);
-
+    
+    emitter.emit('OnLoadUF', estados);
 });
 
-app.listen(port, () => {
-    console.log(`Servidor executando em http://localhost:${port}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor executando em http://localhost:${process.env.PORT}`)
 });
